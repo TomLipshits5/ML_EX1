@@ -17,6 +17,7 @@ class classifier:
         maxVal, res = 0, 0
         # Get k nearest neighbors index
         idx = np.argpartition(dists, self.k)
+        # idx = sorted(range(len(dists)), key=lambda sub: dists[sub])[:self.k]
         # Count tags from sample in k nearest neighbors
         for i in range(self.k):
             tagIndex = idx[i]
@@ -91,7 +92,7 @@ def simple_test():
     test2 = data['test2']
     test3 = data['test3']
 
-    sampleSize = 50
+    sampleSize = 10
     testSize = 50
     x_train, y_train = gensmallm([train0, train1, train2, train3], [0, 1, 2, 3], sampleSize)
 
