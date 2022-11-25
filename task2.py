@@ -48,7 +48,7 @@ def predictAndCalcError(k: int, x_train: np.array, y_train: np.array, x_test: np
 
 
 def corruptSample(x_train, y_train):
-    randomSampleIdx = random.sample(random(len(x_train)), 0.15*len(x_train))
+    randomSampleIdx = random.sample(range(len(x_train)), int(0.15*len(x_train)))
     for idx in randomSampleIdx:
         y_train[idx] = random.choice([i for i in [2, 3, 5, 6] if i != y_train[idx]])
     return x_train, y_train
@@ -100,6 +100,6 @@ def task2f():
 
 
 if __name__ == '__main__':
-    task2a()
-    task2e()
+    # task2a()
+    # task2e()
     task2f()
