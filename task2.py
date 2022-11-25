@@ -53,7 +53,7 @@ def corruptSample(x_train, y_train):
 
 
 def runTestCase(x_test: np.array, y_test: np.array, Xs: list, Ks: list, sampleSizes: list,
-                reps=10, corrupt=False, title='title', xlable='Xs', ylable='Ys'):
+                reps=10, corrupt=False, title='title', xlable='Xs', ylable='Ys', barWidth=0.8):
     errors = [np.zeros(10, float) for _ in Xs]
     for idx, sampleSize in enumerate(Xs):
         print('idx: {}'.format(idx))
@@ -63,8 +63,8 @@ def runTestCase(x_test: np.array, y_test: np.array, Xs: list, Ks: list, sampleSi
                 x_train, y_train = corruptSample(x_train, y_train)
             errors[idx][i] = predictAndCalcError(Ks[idx], x_train, y_train, x_test, y_test)
     plt.plot(Xs, [error.mean() for error in errors], label='average error')
-    plt.bar(Xs, [error.max() for error in errors], label='max error')
-    plt.bar(Xs, [error.min() for error in errors], label='min error')
+    plt.bar(Xs, [error.max() for error in errors], label='max error', width=barWidth)
+    plt.bar(Xs, [error.min() for error in errors], label='min error', width=barWidth)
     plt.title(title)
     plt.xlabel(xlable)
     plt.ylabel(ylable)
@@ -86,7 +86,7 @@ def task2e():
     sampleSizes = [200 for _ in Ks]
     x_test, y_test = getTestSample(len(test2) + len(test3) + len(test5) + len(test6))
     runTestCase(x_test, y_test, Ks, Ks, sampleSizes,
-                title="Task 2e", xlable="K value", ylable="error")
+                title="Task 2e", xlable="K value", ylable="error", barWidth=0.1)
 
 
 def task2f():
@@ -94,10 +94,10 @@ def task2f():
     sampleSizes = [200 for _ in Ks]
     x_test, y_test = getTestSample(len(test2) + len(test3) + len(test5) + len(test6))
     runTestCase(x_test, y_test, Ks, Ks, sampleSizes,
-                corrupt=True, title="Task 2f", xlable="K value", ylable="error")
+                corrupt=True, title="Task 2f", xlable="K value", ylable="error", barWidth=0.1)
 
 
 if __name__ == '__main__':
-    # task2a()
-    # task2e()
+    task2a()
+    task2e()
     task2f()
