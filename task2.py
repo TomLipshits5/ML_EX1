@@ -68,6 +68,7 @@ def runTestCase(x_test: np.array, y_test: np.array, Xs: list, Ks: list, sampleSi
     plt.title(title)
     plt.xlabel(xlable)
     plt.ylabel(ylable)
+    # plt.ylim(0.08, 0.5)
     plt.legend()
     plt.show()
 
@@ -99,5 +100,5 @@ def task2f():
 
 if __name__ == '__main__':
     task2a()
-    task2e()
-    task2f()
+    # task2e()
+    # task2f()

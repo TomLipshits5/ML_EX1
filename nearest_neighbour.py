@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from scipy.spatial import distance
 
 
@@ -14,7 +15,8 @@ class classifier:
         counter = np.zeros(10, int)
         # Calculate dist to all sample points
         dists = [distance.euclidean(x_test, x_i) for x_i in self.X]
-        maxVal, res = 0, 0
+        maxVal = 0
+        res = []
         # Get k nearest neighbors index
         idx = np.argpartition(dists, self.k)
         # idx = sorted(range(len(dists)), key=lambda sub: dists[sub])[:self.k]
@@ -23,12 +25,14 @@ class classifier:
             tagIndex = idx[i]
             tag = self.Y[tagIndex]
             counter[int(tag)] += 1
-        # Get leading tag
+        # Get leading tag (randomly to not be bias for lower tags with equal reps)
         for i in range(10):
             if counter[i] > maxVal:
                 maxVal = counter[i]
-                res = i
-        return res
+                res = [i]
+            elif counter[i] == maxVal:
+                res.append(i)
+        return random.choice(res)
 
 
 """
