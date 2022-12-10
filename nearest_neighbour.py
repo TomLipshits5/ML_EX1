@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from scipy.spatial import distance
 
 
@@ -11,25 +12,27 @@ class classifier:
 
     def predict(self, x_test: np.array):
         # Init function vars
-        dists = np.zeros(self.samplesNum)
         counter = np.zeros(10, int)
-        maxVal, res = 0, 0
         # Calculate dist to all sample points
-        for i in range(self.samplesNum):
-            dists[i] = distance.euclidean(x_test, self.X[i])
+        dists = [distance.euclidean(x_test, x_i) for x_i in self.X]
+        maxVal = 0
+        res = []
         # Get k nearest neighbors index
         idx = np.argpartition(dists, self.k)
+        # idx = sorted(range(len(dists)), key=lambda sub: dists[sub])[:self.k]
         # Count tags from sample in k nearest neighbors
         for i in range(self.k):
             tagIndex = idx[i]
             tag = self.Y[tagIndex]
             counter[int(tag)] += 1
-        # Get leading tag
+        # Get leading tag (randomly to not be bias for lower tags with equal reps)
         for i in range(10):
             if counter[i] > maxVal:
                 maxVal = counter[i]
-                res = i
-        return res
+                res = [i]
+            elif counter[i] == maxVal:
+                res.append(i)
+        return random.choice(res)
 
 
 """
@@ -76,10 +79,7 @@ def learnknn(k: int, x_train: np.array, y_train: np.array):
 
 
 def predictknn(classifier: classifier, x_test: np.array):
-    testSamplesNum = x_test.shape[0]
-    res = np.zeros((testSamplesNum, 1))
-    for i, sample in enumerate(x_test):
-        res[i] = classifier.predict(sample)
+    res = np.array([[classifier.predict(sample)] for sample in x_test])
     return res
 
 
