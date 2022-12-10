@@ -96,7 +96,7 @@ def simple_test():
     test2 = data['test2']
     test3 = data['test3']
 
-    sampleSize = 10
+    sampleSize = 50
     testSize = 50
     x_train, y_train = gensmallm([train0, train1, train2, train3], [0, 1, 2, 3], sampleSize)
 
